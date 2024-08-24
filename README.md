@@ -7,4 +7,3 @@ Welcome to **Reaction Time Test**, a tool designed to measure and improve your r
 - **Quick and Easy Testing:** Start the test with a simple click.
 - **Accurate Measurement:** Get precise readings of your reaction time.
 - **Progress Tracking:** Monitor your improvements over time.
-- **Customizable Settings:** Adjust the test parameters to suit your needs.
