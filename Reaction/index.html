@@ -1,33 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="rstyle.css" />
-  </head>
-  <body>
-    <div class="end-screen">
-      <div class="container">
-        <h1>Reaction Time Test</h1>
-        <div class="reaction-time-text">234 ms</div>
-        <button class="play-again-btn">Play Again</button>
-      </div>
-    </div>
-
-    <div class="main-menu active">
-      <div class="container">
-        <h1>Reaction Time Test</h1>
-        <p>Click as soon as you see the green color on the screen.</p>
-        <p>Click anywhere to start.</p>
-      </div>
-    </div>
-
-    <div class="clickable-area">
-      <div class="message">Click Now!</div>
-    </div>
-
-    <script src="main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reaction Time Test</title>
+  <link rel="stylesheet" href="rstyle.css">
+</head>
+<body>
+  <div class="screen first-screen">
+    <h1>Reaction Time Test</h1>
+    <button class="btn" id="start">Start Test</button>
+  </div>
+  <div class="screen second-screen">
+    <h1 id="instruction">Click the blue box to start!</h1>
+    <div class="reaction-box" id="reaction-box"></div>
+    <p id="warning" class="hidden">Please wait for the green box next time.</p>
+  </div>
+  <div class="screen third-screen">
+    <h1>Results</h1>
+    <p>Your Reaction Time: <span id="final-reaction-time">0</span> ms</p>
+    <button class="btn" id="reset">Try Again</button>
+  </div>
+  <script src="rscript.js"></script>
+</body>
 </html>
