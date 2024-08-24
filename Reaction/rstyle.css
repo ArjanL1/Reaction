@@ -1,85 +1,99 @@
+:root {
+    --primary-color: #fc5050;
+    --ready-color: #ff0000;
+    --go-color: #4caf50;
+    --start-color: #2196F3;
+}
+
 * {
-    box-sizing: border-box;
-  }
-  
-  body {
     margin: 0;
-  }
-  
-  .clickable-area {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     height: 100vh;
-    width: 100%;
+    color: #f0f0f5;
+    overflow: hidden;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    background-color: #1e1f26;
+    position: relative;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.4;
+}
+
+.btn {
+    color: #f0f0f5;
     cursor: pointer;
-    background: limegreen;
-    display: grid;
-    place-items: center;
-    font-size: 32px;
-    font-family: "Roboto", sans-serif;
-    color: #fff;
-  }
-  
-  .end-screen,
-  .main-menu {
-    display: none;
-    position: fixed;
+    border: 3px solid #f0f0f5;
+    font-family: inherit;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+}
+
+.btn:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
+    position: absolute;
     top: 0;
     left: 0;
-    background: #313131;
-    color: #fff;
-    font-family: "Roboto", sans-serif;
-    text-align: center;
-  }
-  
-  .main-menu.active,
-  .end-screen.active {
-    display: grid;
-    place-items: center;
-  }
-  
-  .main-menu {
-    cursor: pointer;
-  }
-  
-  .container {
-    max-width: 700px;
-    padding: 0 32px;
-  }
-  
-  .main-menu h1 {
-    font-size: 70px;
-    margin: 8px 0;
-  }
-  
-  .container p {
-    font-size: 20px;
-    line-height: 2;
-    font-weight: 800;
-    margin: 0;
-  }
-  
-  .end-screen h1 {
-    font-size: 30px;
-  }
-  
-  .reaction-time-text {
-    font-size: 100px;
-    font-weight: 900;
-  }
-  
-  .end-screen .play-again-btn {
-    border: none;
-    background: #fff;
-    font-size: 20px;
-    padding: 8px 32px;
-    margin-top: 20px;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 4px;
-    cursor: pointer;
-  }
+    transition: transform 0.5s ease-out;
+    background-color: #1a1a1a;
+}
 
-  .play-again-btn:hover {
-    color: #fc5050;
-  }
+.second-screen, .third-screen {
+    transform: translateY(100vh);
+}
+
+.reaction-box {
+    width: 300px;
+    height: 300px;
+    background-color: var(--start-color);
+    border: 5px solid black;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    margin: 20px;
+    transition: background-color 0.5s ease;
+}
+
+p {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin: 20px 0; 
+}
+
+.hidden {
+    display: none;
+}
+
+#warning {
+    color: var(--primary-color);
+}
+
+.btn.restart, #reset {
+    margin-top: 20px; 
+}
+
+@media (max-width: 769px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+    }
+}
