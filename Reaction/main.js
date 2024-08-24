@@ -1,108 +1,73 @@
-const mainMenu = document.querySelector(".main-menu");
-const clickableArea = document.querySelector(".clickable-area");
-const message = document.querySelector(".clickable-area .message");
-const endScreen = document.querySelector(".end-screen");
-const reactionTimeText = document.querySelector(
-  ".end-screen .reaction-time-text"
-);
-const playAgainBtn = document.querySelector(".end-screen .play-again-btn");
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('start');
+    const reactionBox = document.getElementById('reaction-box');
+    const instructionText = document.getElementById('instruction');
+    const warningText = document.getElementById('warning');
+    const finalReactionTimeDisplay = document.getElementById('final-reaction-time');
+    const resetBtn = document.getElementById('reset');
+    const firstScreen = document.querySelector('.first-screen');
+    const secondScreen = document.querySelector('.second-screen');
+    const thirdScreen = document.querySelector('.third-screen');
+    let startTime, timeout;
+    let gameState = 'waiting';
 
-let timer;
-let greenDisplayed;
-let timeNow;
-let waitingForStart;
-let waitingForGreen;
-let scores;
+    function showSecondScreen() {
+        firstScreen.style.transform = 'translateY(-100vh)';
+        secondScreen.style.transform = 'translateY(0)';
+    }
 
-const init = () => {
-  greenDisplayed = false;
-  waitingForStart = false;
-  waitingForGreen = false;
-  scores = [];
-};
+    function showThirdScreen() {
+        secondScreen.style.transform = 'translateY(-100vh)';
+        thirdScreen.style.transform = 'translateY(0)';
+    }
 
-init();
+    function resetToSecondScreen() {
+        thirdScreen.style.transform = 'translateY(100vh)';
+        secondScreen.style.transform = 'translateY(0)';
+        resetBox();
+    }
 
-const setGreenColor = () => {
-  clickableArea.style.backgroundColor = "#32cd32";
-  message.innerHTML = "Click Now!";
-  message.style.color = "#111";
-  greenDisplayed = true;
-  timeNow = Date.now();
-};
+    function resetBox() {
+        reactionBox.style.backgroundColor = 'var(--start-color)';
+        instructionText.textContent = "Click the blue box to start!"; 
+        warningText.classList.add('hidden');
+        gameState = 'waiting';
+        clearTimeout(timeout);
+    }
 
-const startGame = () => {
-  clickableArea.style.backgroundColor = "#c1121f";
-  message.innerHTML = "Wait for the Green Color.";
-  message.style.color = "#fff";
+    function startGame() {
+        showSecondScreen();
+    }
 
-  let randomNumber = Math.floor(Math.random() * 4000 + 3000);
-  timer = setTimeout(setGreenColor, randomNumber);
+    function startTest() {
+        instructionText.textContent = "Wait for the green box!";
+        reactionBox.style.backgroundColor = 'var(--ready-color)';
+        warningText.classList.add('hidden');
+        gameState = 'ready';
+        timeout = setTimeout(() => {
+            reactionBox.style.backgroundColor = 'var(--go-color)';
+            gameState = 'go';
+            startTime = performance.now();
+        }, Math.random() * 5000 + 2000); 
+    }
 
-  waitingForStart = false;
-  waitingForGreen = true;
-};
+    function handleBoxClick() {
+        if (gameState === 'waiting') {
+            startTest();
+        } else if (gameState === 'ready') {
+            instructionText.textContent = "Click the blue box to start!";
+            warningText.classList.remove('hidden'); 
+            gameState = 'waiting'; 
+            reactionBox.style.backgroundColor = 'var(--start-color)';
+            clearTimeout(timeout);
+        } else if (gameState === 'go') {
+            const reactionTime = Math.round(performance.now() - startTime);
+            finalReactionTimeDisplay.textContent = reactionTime;
+            showThirdScreen();
+        }
+    }
 
-mainMenu.addEventListener("click", () => {
-  mainMenu.classList.remove("active");
-  startGame();
-});
-
-const endGame = () => {
-  endScreen.classList.add("active");
-  clearTimeout(timer);
-
-  let total = 0;
-
-  scores.forEach((s) => {
-    total += s;
-  });
-
-  let averageScore = Math.round(total / scores.length);
-
-  reactionTimeText.innerHTML = `${averageScore} ms`;
-};
-
-const displayReactionTime = (rt) => {
-  clickableArea.style.backgroundColor = "#faf0ca";
-  message.innerHTML = `<div class='reaction-time-text'>${rt} ms</div>Click to continue.`;
-  greenDisplayed = false;
-  waitingForStart = true;
-  scores.push(rt);
-
-  if (scores.length >= 3) {
-    endGame();
-  }
-};
-
-const displayTooSoon = () => {
-  clickableArea.style.backgroundColor = "#faf0ca";
-  message.innerHTML = "Too Soon. Click to continue";
-  message.style.color = "#111";
-  waitingForStart = true;
-  clearTimeout(timer);
-};
-
-clickableArea.addEventListener("click", () => {
-  if (greenDisplayed) {
-    let clickTime = Date.now();
-    let reactionTime = clickTime - timeNow;
-    displayReactionTime(reactionTime);
-    return;
-  }
-
-  if (waitingForStart) {
-    startGame();
-    return;
-  }
-
-  if (waitingForGreen) {
-    displayTooSoon();
-  }
-});
-
-playAgainBtn.addEventListener("click", () => {
-  endScreen.classList.remove("active");
-  init();
-  startGame();
+    startBtn.addEventListener('click', startGame);
+    reactionBox.addEventListener('click', handleBoxClick);
+    resetBtn.addEventListener('click', resetToSecondScreen);
 });
